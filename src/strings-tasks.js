@@ -20,6 +20,9 @@
  *   getStringLength(undefined) => 0
  */
 function getStringLength(string) {
+  if (typeof string !== 'string') {
+    return 0;
+  }
   return string.length;
 }
 
@@ -38,7 +41,7 @@ function getStringLength(string) {
  *   isString(new String('test')) => true
  */
 function isString(value) {
-  return typeof value === 'string';
+  return typeof value === 'string' || value instanceof String;
 }
 
 /**
@@ -70,7 +73,7 @@ function concatenateStrings(string1, string2) {
  *   getFirstChar('') => ''
  */
 function getFirstChar(string) {
-  return string.trim().charAt(0);
+  return string.charAt(0);
 }
 
 /**
@@ -132,7 +135,7 @@ function removeTrailingWhitespaces(string) {
  *   repeatString('abc', -2) => ''
  */
 function repeatString(string, quantity) {
-  string.repeat(quantity);
+  return quantity >= 1 && string !== '' ? string.repeat(quantity) : '';
 }
 
 /**
@@ -148,8 +151,11 @@ function repeatString(string, quantity) {
  *   removeFirstOccurrences('ABABAB', 'BA') => 'ABAB'.
  */
 function removeFirstOccurrences(str, value) {
-  const result = str.replace(value, '');
-  return result;
+  const index = str.indexOf(value);
+  if (index === -1) {
+    return str;
+  }
+  return str.slice(0, index) + str.slice(index + value.length);
 }
 
 /**
@@ -184,7 +190,10 @@ function removeLastOccurrences(str, value) {
  *   sumOfCodes() => 0
  */
 function sumOfCodes(str) {
-  return str.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  if (typeof str !== 'string') {
+    return 0;
+  }
+  return Array.from(str).reduce((sum, char) => sum + char.charCodeAt(0), 0);
 }
 
 /**
@@ -231,7 +240,9 @@ function endsWith(str, substr) {
  *   formatTime(0, 0) => "00:00"
  */
 function formatTime(minutes, seconds) {
-  return `${minutes} + ':' + ${seconds}`;
+  const correctMinutes = String(minutes).padStart(2, '0');
+  const correctSeconds = String(seconds).padStart(2, '0');
+  return `${correctMinutes}:${correctSeconds}`;
 }
 
 /**
@@ -312,7 +323,7 @@ function countVowels(str) {
  *   isPalindrome('No lemon, no melon') => true
  */
 function isPalindrome(str) {
-  const compareStr = str.replace(/\s+/g, '').toLowerCase();
+  const compareStr = str.replace(/[^a-z0-9]/gi, '').toLowerCase();
   return compareStr === compareStr.split('').reverse().join('');
 }
 
@@ -346,7 +357,10 @@ function findLongestWord(sentence) {
  *   reverseWords('The Quick Brown Fox') => 'ehT kciuQ nworB xoF'
  */
 function reverseWords(str) {
-  return str.split('').reverse().join('');
+  return str
+    .split(' ')
+    .map((word) => word.split('').reverse().join(''))
+    .join(' ');
 }
 
 /**
