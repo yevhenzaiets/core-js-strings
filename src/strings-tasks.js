@@ -294,8 +294,8 @@ function containsSubstring(str, substring) {
  *   countVowels('XYZ') => 1
  */
 function countVowels(str) {
-  const vowels = ['a', 'e', 'i', 'o', 'u', 'y', 'A', 'E', 'I', 'O', 'U', 'Y'];
-  return str.split('').reduce((total, letter) => vowels.includes(letter) ? total + 1 : total, 0);
+  // return str.split('').reduce((total, letter) => vowels.includes(letter) ? total + 1 : total, 0);
+  return (str.match(/[aeiouyAEIOUY]/g) || []).length;
 }
 
 /**
@@ -330,7 +330,9 @@ function isPalindrome(str) {
  */
 function findLongestWord(sentence) {
   const words = sentence.split(' ');
-  return words.reduce((longest, current) => current.length > longest.length ? current : longest , '');
+  return words.reduce((longest, current) => {
+    return current.length > longest.length ? current : longest;
+  }, '');
 }
 
 /**
@@ -359,9 +361,14 @@ function reverseWords(str) {
  *   invertCase('12345') => '12345'
  */
 function invertCase(str) {
-  return str.split('').map(char => {
-    return char === char.toUpperCase() ? char.toLowerCase() : char.toUpperCase();
-  }).join('');
+  // return str.split('').map(char => {
+  //   return char === char.toUpperCase() ? char.toLowerCase() : char.toUpperCase();
+  // }).join('');
+  return str.replace(/[a-zA-Z]/g, (char) => {
+    return char === char.toUpperCase()
+      ? char.toLowerCase()
+      : char.toUpperCase();
+  });
 }
 
 /**
@@ -451,10 +458,13 @@ function encodeToRot13(str) {
   const input = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
   const output = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm';
 
-  return str.split('').map( letter => {
-    const indexLetter = input.indexOf(letter);
-    return indexLetter !== -1 ? output[indexLetter] : letter;
-  }).join('');
+  return str
+    .split('')
+    .map((letter) => {
+      const indexLetter = input.indexOf(letter);
+      return indexLetter !== -1 ? output[indexLetter] : letter;
+    })
+    .join('');
 }
 
 /**
@@ -483,10 +493,58 @@ function encodeToRot13(str) {
  */
 function getCardId(value) {
   const cards = [
-    'A♣','2♣','3♣','4♣','5♣','6♣','7♣','8♣','9♣','10♣','J♣','Q♣','K♣',
-    'A♦','2♦','3♦','4♦','5♦','6♦','7♦','8♦','9♦','10♦','J♦','Q♦','K♦',
-    'A♥','2♥','3♥','4♥','5♥','6♥','7♥','8♥','9♥','10♥','J♥','Q♥','K♥',
-    'A♠','2♠','3♠','4♠','5♠','6♠','7♠','8♠','9♠','10♠','J♠','Q♠','K♠'
+    'A♣',
+    '2♣',
+    '3♣',
+    '4♣',
+    '5♣',
+    '6♣',
+    '7♣',
+    '8♣',
+    '9♣',
+    '10♣',
+    'J♣',
+    'Q♣',
+    'K♣',
+    'A♦',
+    '2♦',
+    '3♦',
+    '4♦',
+    '5♦',
+    '6♦',
+    '7♦',
+    '8♦',
+    '9♦',
+    '10♦',
+    'J♦',
+    'Q♦',
+    'K♦',
+    'A♥',
+    '2♥',
+    '3♥',
+    '4♥',
+    '5♥',
+    '6♥',
+    '7♥',
+    '8♥',
+    '9♥',
+    '10♥',
+    'J♥',
+    'Q♥',
+    'K♥',
+    'A♠',
+    '2♠',
+    '3♠',
+    '4♠',
+    '5♠',
+    '6♠',
+    '7♠',
+    '8♠',
+    '9♠',
+    '10♠',
+    'J♠',
+    'Q♠',
+    'K♠',
   ];
   return cards.indexOf(value);
 }
